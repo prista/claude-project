@@ -22,10 +22,12 @@ export default function AuthForm() {
         const name = email.split("@")[0];
         const { error } = await signUp.email({ name, email, password });
         if (error) return error.message ?? "Signup failed";
-      } else {
-        const { error } = await signIn.email({ email, password });
-        if (error) return error.message ?? "Login failed";
+        router.push("/authenticate?mode=login");
+        return null;
       }
+
+      const { error } = await signIn.email({ email, password });
+      if (error) return error.message ?? "Login failed";
 
       router.push("/dashboard");
       return null;
