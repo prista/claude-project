@@ -9,12 +9,12 @@ export default function HomePage() {
       </p>
       <div className="flex items-center gap-4">
         <Link
-          href="/authenticate"
+          href="/authenticate?mode=login"
           className="px-5 py-2 rounded-md bg-zinc-700 text-white hover:bg-zinc-600 transition-colors"
         >
           Log In
         </Link>
-        <Link href="/authenticate" className="text-zinc-300 hover:text-white transition-colors">
+        <Link href="/authenticate?mode=signup" className="text-zinc-300 hover:text-white transition-colors">
           Sign up
         </Link>
       </div>
