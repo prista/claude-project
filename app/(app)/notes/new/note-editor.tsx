@@ -2,6 +2,7 @@
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import EditorToolbar from "./editor-toolbar";
 
 type NoteEditorProps = {
   hiddenInputRef: React.RefObject<HTMLInputElement | null>;
@@ -28,6 +29,7 @@ export default function NoteEditor({ hiddenInputRef }: NoteEditorProps) {
 
   return (
     <div className="rounded-md bg-zinc-800 border border-zinc-700 focus-within:ring-2 focus-within:ring-blue-500">
+      <EditorToolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>
   );
