@@ -1,3 +1,15 @@
-export default function NotePage() {
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
+
+export default async function NotePage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/authenticate");
+  }
+
   return <main><h1>Note</h1><p>Placeholder</p></main>;
 }
