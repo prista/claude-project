@@ -11,5 +11,5 @@ export default async function NotePage() {
     redirect("/authenticate");
   }
 
-  return <main><h1>Note</h1><p>Placeholder</p></main>;
+  return <main className="max-w-5xl mx-auto px-4 py-8"><h1 className="text-2xl font-bold text-white">Note</h1><p className="text-zinc-400 mt-2">Placeholder</p></main>;
 }
