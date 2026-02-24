@@ -37,6 +37,20 @@ export function rowToNote(row: NoteRow): Note {
 
 const EMPTY_DOC = JSON.stringify({ type: "doc", content: [] });
 
+export function getNotesByUser(userId: string): Note[] {
+  const rows = db
+    .query("SELECT * FROM notes WHERE user_id = ? ORDER BY updated_at DESC")
+    .all(userId) as NoteRow[];
+  return rows.map(rowToNote);
+}
+
+export function getNoteById(id: string, userId: string): Note | null {
+  const row = db
+    .query("SELECT * FROM notes WHERE id = ? AND user_id = ?")
+    .get(id, userId) as NoteRow | null;
+  return row ? rowToNote(row) : null;
+}
+
 export function createNote(
   userId: string,
   data: { title?: string; contentJson?: string },

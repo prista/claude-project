@@ -1,8 +1,15 @@
-import { redirect } from "next/navigation";
+import { redirect, notFound } from "next/navigation";
 import { headers } from "next/headers";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
+import { getNoteById } from "@/lib/notes";
+import { NoteRenderer } from "./note-renderer";
 
-export default async function NotePage() {
+export default async function NotePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -11,5 +18,23 @@ export default async function NotePage() {
     redirect("/authenticate");
   }
 
-  return <main className="max-w-5xl mx-auto px-4 py-8"><h1 className="text-2xl font-bold text-white">Note</h1><p className="text-zinc-400 mt-2">Placeholder</p></main>;
+  const { id } = await params;
+  const note = getNoteById(id, session.user.id);
+
+  if (!note) {
+    notFound();
+  }
+
+  return (
+    <main className="max-w-3xl mx-auto px-4 py-8">
+      <Link
+        href="/dashboard"
+        className="text-sm text-zinc-400 hover:text-white transition-colors"
+      >
+        &larr; Back to Dashboard
+      </Link>
+      <h1 className="text-2xl font-bold text-white mt-4 mb-6">{note.title}</h1>
+      <NoteRenderer contentJson={note.contentJson} />
+    </main>
+  );
 }
