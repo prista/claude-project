@@ -27,10 +27,15 @@ export async function createNoteAction(
     return parsed.error.issues[0].message;
   }
 
-  const note = createNote(session.user.id, {
-    title: parsed.data.title,
-    contentJson: parsed.data.content_json,
-  });
+  let note;
+  try {
+    note = createNote(session.user.id, {
+      title: parsed.data.title,
+      contentJson: parsed.data.content_json,
+    });
+  } catch {
+    return "Failed to create note. Please try again.";
+  }
 
   redirect(`/notes/${note.id}`);
 }

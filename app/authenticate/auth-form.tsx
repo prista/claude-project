@@ -21,13 +21,13 @@ export default function AuthForm() {
       if (isSignup) {
         const name = email.split("@")[0];
         const { error } = await signUp.email({ name, email, password });
-        if (error) return error.message ?? "Signup failed";
+        if (error) return "Could not create account. Please try again.";
         router.push("/authenticate?mode=login");
         return null;
       }
 
       const { error } = await signIn.email({ email, password });
-      if (error) return error.message ?? "Login failed";
+      if (error) return "Invalid email or password.";
 
       router.push("/dashboard");
       return null;

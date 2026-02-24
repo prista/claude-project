@@ -1,6 +1,6 @@
 import { Database } from "bun:sqlite";
 
-const db = new Database("data/app.db");
+const db = new Database(process.env.DB_PATH || "data/app.db");
 
 // Enable WAL mode for better concurrency
 db.run("PRAGMA journal_mode = WAL;");
