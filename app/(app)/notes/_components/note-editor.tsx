@@ -3,17 +3,17 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import EditorToolbar from "./editor-toolbar";
+import type { JSONContent } from "@tiptap/react";
 
 type NoteEditorProps = {
   hiddenInputRef: React.RefObject<HTMLInputElement | null>;
+  initialContent?: JSONContent;
 };
 
-const EMPTY_DOC = JSON.stringify({ type: "doc", content: [] });
-
-export default function NoteEditor({ hiddenInputRef }: NoteEditorProps) {
+export default function NoteEditor({ hiddenInputRef, initialContent }: NoteEditorProps) {
   const editor = useEditor({
     extensions: [StarterKit.configure({ heading: { levels: [1, 2, 3] } })],
-    content: { type: "doc", content: [] },
+    content: initialContent ?? { type: "doc", content: [] },
     editorProps: {
       attributes: {
         class: "tiptap outline-none min-h-[200px] p-3",

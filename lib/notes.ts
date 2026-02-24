@@ -51,6 +51,45 @@ export function getNoteById(id: string, userId: string): Note | null {
   return row ? rowToNote(row) : null;
 }
 
+export function updateNote(
+  id: string,
+  userId: string,
+  data: { title?: string; contentJson?: string },
+): Note | null {
+  const title = data.title?.trim() || undefined;
+  const contentJson = data.contentJson || undefined;
+  const now = new Date().toISOString();
+
+  const sets: string[] = ["updated_at = ?"];
+  const values: string[] = [now];
+
+  if (title) {
+    sets.push("title = ?");
+    values.push(title);
+  }
+  if (contentJson) {
+    sets.push("content_json = ?");
+    values.push(contentJson);
+  }
+
+  values.push(id, userId);
+
+  db.run(
+    `UPDATE notes SET ${sets.join(", ")} WHERE id = ? AND user_id = ?`,
+    values,
+  );
+
+  return getNoteById(id, userId);
+}
+
+export function deleteNote(id: string, userId: string): boolean {
+  const result = db.run(
+    "DELETE FROM notes WHERE id = ? AND user_id = ?",
+    [id, userId],
+  );
+  return result.changes > 0;
+}
+
 export function createNote(
   userId: string,
   data: { title?: string; contentJson?: string },

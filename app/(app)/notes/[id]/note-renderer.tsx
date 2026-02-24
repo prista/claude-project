@@ -52,7 +52,7 @@ function renderNode(node: TipTapNode, key: number): ReactNode {
     case "horizontalRule":
       return <hr key={key} />;
     case "text":
-      return applyMarks(node.text ?? "", node.marks);
+      return <span key={key}>{applyMarks(node.text ?? "", node.marks)}</span>;
     default:
       return renderNodes(node.content);
   }
