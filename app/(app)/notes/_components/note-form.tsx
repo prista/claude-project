@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useActionState, useRef } from "react";
-import type { JSONContent } from "@tiptap/react";
-import NoteEditor from "./note-editor";
+import { useActionState, useRef } from 'react';
+import type { JSONContent } from '@tiptap/react';
+import NoteEditor from './note-editor';
 
 const inputStyles =
-  "w-full px-4 py-2 rounded-md bg-zinc-800 text-white border border-zinc-700 outline-none focus-visible:ring-2 focus-visible:ring-zinc-500";
+  'w-full px-4 py-2 rounded-md bg-zinc-800 text-white border border-zinc-700 outline-none focus-visible:ring-2 focus-visible:ring-zinc-500';
 
-const EMPTY_DOC = JSON.stringify({ type: "doc", content: [] });
+const EMPTY_DOC = JSON.stringify({ type: 'doc', content: [] });
 
 type NoteFormProps = {
   action: (prevState: string | null, formData: FormData) => Promise<string | null>;
@@ -27,55 +27,52 @@ export default function NoteForm({
   pendingLabel,
 }: NoteFormProps) {
   const hiddenInputRef = useRef<HTMLInputElement>(null);
-  const [error, submitAction, isPending] = useActionState<string | null, FormData>(
-    action,
-    null,
-  );
+  const [error, submitAction, isPending] = useActionState<string | null, FormData>(action, null);
 
   const parsedContent: JSONContent | undefined = initialContentJson
     ? JSON.parse(initialContentJson)
     : undefined;
 
   return (
-    <form action={submitAction} className="space-y-5">
+    <form action={submitAction} className='space-y-5'>
       {error && (
-        <output role="alert" className="block text-red-400 text-sm">
+        <output role='alert' className='block text-red-400 text-sm'>
           {error}
         </output>
       )}
 
-      <fieldset disabled={isPending} className="space-y-4">
-        {noteId && <input type="hidden" name="id" value={noteId} />}
+      <fieldset disabled={isPending} className='space-y-4'>
+        {noteId && <input type='hidden' name='id' value={noteId} />}
 
         <div>
-          <label htmlFor="title" className="block text-sm text-zinc-300 mb-1">
+          <label htmlFor='title' className='block text-sm text-zinc-300 mb-1'>
             Title
           </label>
           <input
-            id="title"
-            name="title"
-            type="text"
+            id='title'
+            name='title'
+            type='text'
             maxLength={200}
-            placeholder="Enter note title..."
+            placeholder='Enter note title...'
             defaultValue={initialTitle}
             className={inputStyles}
           />
         </div>
 
         <div>
-          <label className="block text-sm text-zinc-300 mb-1">Content</label>
+          <label className='block text-sm text-zinc-300 mb-1'>Content</label>
           <NoteEditor hiddenInputRef={hiddenInputRef} initialContent={parsedContent} />
           <input
             ref={hiddenInputRef}
-            type="hidden"
-            name="content_json"
+            type='hidden'
+            name='content_json'
             defaultValue={initialContentJson ?? EMPTY_DOC}
           />
         </div>
 
         <button
-          type="submit"
-          className="px-4 py-2 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-500 transition-colors disabled:opacity-50"
+          type='submit'
+          className='px-4 py-2 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-500 transition-colors disabled:opacity-50'
         >
           {isPending ? pendingLabel : submitLabel}
         </button>

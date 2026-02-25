@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import EditorToolbar from "./editor-toolbar";
-import type { JSONContent } from "@tiptap/react";
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import EditorToolbar from './editor-toolbar';
+import type { JSONContent } from '@tiptap/react';
 
 type NoteEditorProps = {
   hiddenInputRef: React.RefObject<HTMLInputElement | null>;
@@ -13,10 +13,10 @@ type NoteEditorProps = {
 export default function NoteEditor({ hiddenInputRef, initialContent }: NoteEditorProps) {
   const editor = useEditor({
     extensions: [StarterKit.configure({ heading: { levels: [1, 2, 3] } })],
-    content: initialContent ?? { type: "doc", content: [] },
+    content: initialContent ?? { type: 'doc', content: [] },
     editorProps: {
       attributes: {
-        class: "tiptap outline-none min-h-[200px] p-3",
+        class: 'tiptap outline-none min-h-[200px] p-3',
       },
     },
     onUpdate({ editor }) {
@@ -28,7 +28,7 @@ export default function NoteEditor({ hiddenInputRef, initialContent }: NoteEdito
   });
 
   return (
-    <div className="rounded-md bg-zinc-800 border border-zinc-700 focus-within:ring-2 focus-within:ring-blue-500">
+    <div className='rounded-md bg-zinc-800 border border-zinc-700 focus-within:ring-2 focus-within:ring-blue-500'>
       <EditorToolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>

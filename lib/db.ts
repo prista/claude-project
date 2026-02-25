@@ -1,10 +1,10 @@
-import { Database } from "bun:sqlite";
+import { Database } from 'bun:sqlite';
 
-const db = new Database(process.env.DB_PATH || "data/app.db");
+const db = new Database(process.env.DB_PATH || 'data/app.db');
 
 // Enable WAL mode for better concurrency
-db.run("PRAGMA journal_mode = WAL;");
-db.run("PRAGMA foreign_keys = ON;");
+db.run('PRAGMA journal_mode = WAL;');
+db.run('PRAGMA foreign_keys = ON;');
 
 // Create better-auth tables
 db.run(`
@@ -78,8 +78,8 @@ db.run(`
   )
 `);
 
-db.run("CREATE INDEX IF NOT EXISTS idx_notes_user_id ON notes(user_id)");
-db.run("CREATE INDEX IF NOT EXISTS idx_notes_public_slug ON notes(public_slug)");
-db.run("CREATE INDEX IF NOT EXISTS idx_notes_is_public ON notes(is_public)");
+db.run('CREATE INDEX IF NOT EXISTS idx_notes_user_id ON notes(user_id)');
+db.run('CREATE INDEX IF NOT EXISTS idx_notes_public_slug ON notes(public_slug)');
+db.run('CREATE INDEX IF NOT EXISTS idx_notes_is_public ON notes(is_public)');
 
 export { db };

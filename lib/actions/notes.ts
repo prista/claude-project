@@ -1,10 +1,10 @@
-"use server";
+'use server';
 
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
-import { createNote, updateNote, deleteNote } from "@/lib/notes";
-import { createNoteSchema } from "@/lib/schemas/note";
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { auth } from '@/lib/auth';
+import { createNote, updateNote, deleteNote } from '@/lib/notes';
+import { createNoteSchema } from '@/lib/schemas/note';
 
 export async function createNoteAction(
   _prevState: string | null,
@@ -15,12 +15,12 @@ export async function createNoteAction(
   });
 
   if (!session) {
-    redirect("/authenticate");
+    redirect('/authenticate');
   }
 
   const parsed = createNoteSchema.safeParse({
-    title: formData.get("title"),
-    content_json: formData.get("content_json"),
+    title: formData.get('title'),
+    content_json: formData.get('content_json'),
   });
 
   if (!parsed.success) {
@@ -34,7 +34,7 @@ export async function createNoteAction(
       contentJson: parsed.data.content_json,
     });
   } catch {
-    return "Failed to create note. Please try again.";
+    return 'Failed to create note. Please try again.';
   }
 
   redirect(`/notes/${note.id}`);
@@ -49,17 +49,17 @@ export async function updateNoteAction(
   });
 
   if (!session) {
-    redirect("/authenticate");
+    redirect('/authenticate');
   }
 
-  const id = formData.get("id");
-  if (typeof id !== "string" || !id) {
-    return "Missing note ID.";
+  const id = formData.get('id');
+  if (typeof id !== 'string' || !id) {
+    return 'Missing note ID.';
   }
 
   const parsed = createNoteSchema.safeParse({
-    title: formData.get("title"),
-    content_json: formData.get("content_json"),
+    title: formData.get('title'),
+    content_json: formData.get('content_json'),
   });
 
   if (!parsed.success) {
@@ -72,10 +72,10 @@ export async function updateNoteAction(
       contentJson: parsed.data.content_json,
     });
     if (!updated) {
-      return "Note not found.";
+      return 'Note not found.';
     }
   } catch {
-    return "Failed to update note. Please try again.";
+    return 'Failed to update note. Please try again.';
   }
 
   redirect(`/notes/${id}`);
@@ -90,22 +90,22 @@ export async function deleteNoteAction(
   });
 
   if (!session) {
-    redirect("/authenticate");
+    redirect('/authenticate');
   }
 
-  const id = formData.get("id");
-  if (typeof id !== "string" || !id) {
-    return "Missing note ID.";
+  const id = formData.get('id');
+  if (typeof id !== 'string' || !id) {
+    return 'Missing note ID.';
   }
 
   try {
     const deleted = deleteNote(id, session.user.id);
     if (!deleted) {
-      return "Note not found.";
+      return 'Note not found.';
     }
   } catch {
-    return "Failed to delete note. Please try again.";
+    return 'Failed to delete note. Please try again.';
   }
 
-  redirect("/dashboard");
+  redirect('/dashboard');
 }
