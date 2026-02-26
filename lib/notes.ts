@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { db } from './db';
 
 export type NoteRow = {
@@ -82,6 +83,32 @@ export function updateNote(
 export function deleteNote(id: string, userId: string): boolean {
   const result = db.run('DELETE FROM notes WHERE id = ? AND user_id = ?', [id, userId]);
   return result.changes > 0;
+}
+
+export function toggleNotePublic(id: string, userId: string, isPublic: boolean): Note | null {
+  const now = new Date().toISOString();
+
+  if (isPublic) {
+    const slug = nanoid();
+    db.run(
+      'UPDATE notes SET is_public = 1, public_slug = ?, updated_at = ? WHERE id = ? AND user_id = ?',
+      [slug, now, id, userId],
+    );
+  } else {
+    db.run(
+      'UPDATE notes SET is_public = 0, public_slug = NULL, updated_at = ? WHERE id = ? AND user_id = ?',
+      [now, id, userId],
+    );
+  }
+
+  return getNoteById(id, userId);
+}
+
+export function getNoteByPublicSlug(slug: string): Note | null {
+  const row = db
+    .query('SELECT * FROM notes WHERE public_slug = ? AND is_public = 1')
+    .get(slug) as NoteRow | null;
+  return row ? rowToNote(row) : null;
 }
 
 export function createNote(userId: string, data: { title?: string; contentJson?: string }): Note {

@@ -3,8 +3,9 @@ import { headers } from 'next/headers';
 import Link from 'next/link';
 import { auth } from '@/lib/auth';
 import { getNoteById } from '@/lib/notes';
-import { NoteRenderer } from './note-renderer';
+import { NoteRenderer } from '@/components/note-renderer';
 import DeleteNoteButton from './delete-note-button';
+import ShareToggle from './share-toggle';
 
 export default async function NotePage({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth.api.getSession({
@@ -22,15 +23,25 @@ export default async function NotePage({ params }: { params: Promise<{ id: strin
     notFound();
   }
 
+  const updatedDate = new Date(note.updatedAt).toLocaleDateString('en-US', {
+    month: 'numeric',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
   return (
     <main className='max-w-3xl mx-auto px-4 py-8'>
-      <div className='flex items-center justify-between'>
-        <Link
-          href='/dashboard'
-          className='text-sm text-zinc-400 hover:text-white transition-colors'
-        >
-          &larr; Back to Dashboard
-        </Link>
+      <Link href='/dashboard' className='text-sm text-zinc-400 hover:text-white transition-colors'>
+        &larr; Back to Dashboard
+      </Link>
+      <div className='flex items-center justify-between mt-4'>
+        <div>
+          <h1 className='text-2xl font-bold text-white'>{note.title}</h1>
+          <p className='text-sm text-zinc-500 mt-1'>
+            Updated: {updatedDate}
+            <span className='ml-3'>{note.isPublic ? 'Public' : 'Private'}</span>
+          </p>
+        </div>
         <div className='flex items-center gap-2'>
           <Link
             href={`/notes/${id}/edit`}
@@ -41,8 +52,12 @@ export default async function NotePage({ params }: { params: Promise<{ id: strin
           <DeleteNoteButton noteId={id} />
         </div>
       </div>
-      <h1 className='text-2xl font-bold text-white mt-4 mb-6'>{note.title}</h1>
+
+      <hr className='border-zinc-700 my-6' />
+
       <NoteRenderer contentJson={note.contentJson} />
+
+      <ShareToggle noteId={id} initialIsPublic={note.isPublic} initialSlug={note.publicSlug} />
     </main>
   );
 }

@@ -3,8 +3,14 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
-import { createNote, updateNote, deleteNote } from '@/lib/notes';
+import { createNote, updateNote, deleteNote, toggleNotePublic } from '@/lib/notes';
 import { createNoteSchema } from '@/lib/schemas/note';
+
+export type ToggleShareResult = {
+  error?: string;
+  isPublic?: boolean;
+  publicSlug?: string | null;
+};
 
 export async function createNoteAction(
   _prevState: string | null,
@@ -108,4 +114,34 @@ export async function deleteNoteAction(
   }
 
   redirect('/dashboard');
+}
+
+export async function toggleShareAction(
+  _prevState: ToggleShareResult,
+  formData: FormData,
+): Promise<ToggleShareResult> {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return { error: 'Not authenticated.' };
+  }
+
+  const id = formData.get('id');
+  if (typeof id !== 'string' || !id) {
+    return { error: 'Missing note ID.' };
+  }
+
+  const isPublic = formData.get('is_public') === '1';
+
+  try {
+    const note = toggleNotePublic(id, session.user.id, isPublic);
+    if (!note) {
+      return { error: 'Note not found.' };
+    }
+    return { isPublic: note.isPublic, publicSlug: note.publicSlug };
+  } catch {
+    return { error: 'Failed to update sharing. Please try again.' };
+  }
 }
