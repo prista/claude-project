@@ -34,6 +34,13 @@ export default function ShareToggle({
 
   return (
     <section className='border-t border-zinc-700 pt-6 mt-6'>
+      <span
+        className={`inline-block text-xs font-medium px-2 py-0.5 rounded mb-4 ${
+          isPublic ? 'bg-emerald-600/20 text-emerald-400' : 'bg-zinc-700 text-zinc-400'
+        }`}
+      >
+        {isPublic ? 'Public' : 'Private'}
+      </span>
       <div className='flex items-center justify-between'>
         <div>
           <h2 className='text-base font-semibold text-white'>Public Sharing</h2>
