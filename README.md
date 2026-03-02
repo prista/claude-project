@@ -14,10 +14,11 @@ pnpm dev
 bun dev
 ```
 
+### Unit tests
+
 ```bash
 # Single run
 bun run test
-
 # Watch mode
 bun run test:watch
 ```
