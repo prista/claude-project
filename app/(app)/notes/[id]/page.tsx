@@ -37,10 +37,7 @@ export default async function NotePage({ params }: { params: Promise<{ id: strin
       <div className='flex items-center justify-between mt-4'>
         <div>
           <h1 className='text-2xl font-bold text-white'>{note.title}</h1>
-          <p className='text-sm text-zinc-500 mt-1'>
-            Updated: {updatedDate}
-            <span className='ml-3'>{note.isPublic ? 'Public' : 'Private'}</span>
-          </p>
+          <p className='text-sm text-zinc-500 mt-1'>Updated: {updatedDate}</p>
         </div>
         <div className='flex items-center gap-2'>
           <Link
