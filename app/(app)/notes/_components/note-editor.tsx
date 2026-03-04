@@ -28,7 +28,7 @@ export default function NoteEditor({ hiddenInputRef, initialContent }: NoteEdito
   });
 
   return (
-    <div className='rounded-md bg-zinc-800 border border-zinc-700 focus-within:ring-2 focus-within:ring-blue-500'>
+    <div className='rounded-md bg-zinc-800 border border-zinc-700 focus-within:ring-2 focus-within:ring-purple-500'>
       <EditorToolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>

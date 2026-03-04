@@ -72,7 +72,7 @@ export default function NoteForm({
 
         <button
           type='submit'
-          className='px-4 py-2 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-500 transition-colors disabled:opacity-50'
+          className='px-4 py-2 rounded-md bg-purple-600 text-white font-medium hover:bg-purple-500 transition-colors disabled:opacity-50'
         >
           {isPending ? pendingLabel : submitLabel}
         </button>

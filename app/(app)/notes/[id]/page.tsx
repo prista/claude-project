@@ -42,7 +42,7 @@ export default async function NotePage({ params }: { params: Promise<{ id: strin
         <div className='flex items-center gap-2'>
           <Link
             href={`/notes/${id}/edit`}
-            className='px-3 py-1.5 rounded-md text-sm font-medium text-blue-400 border border-blue-400/50 hover:bg-blue-400/10 transition-colors'
+            className='px-3 py-1.5 rounded-md text-sm font-medium text-purple-400 border border-purple-400/50 hover:bg-purple-400/10 transition-colors'
           >
             Edit
           </Link>
